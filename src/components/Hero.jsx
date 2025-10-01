@@ -1,4 +1,5 @@
 import React from "react";
+import jobHunting from "/public/assets/People-search-rafiki.svg"
 
 const Hero = () => {
   return (
@@ -39,7 +40,7 @@ const Hero = () => {
       {/* Right Image */}
       <div className=" md:w-1/2 mt-8 md:mt-0 flex justify-center">
         <img
-          src="/public/assets/People-search-rafiki.svg"
+          src={jobHunting}
           alt="Job Hunt"
           className="w-3/4 sm:w-2/3  md:w-full max-w-md md:max-w-full"
         />
