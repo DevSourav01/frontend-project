@@ -36,12 +36,12 @@ const Hero = () => {
         </p>
       </div>
 
-      {/* Right Image (Hidden on Mobile) */}
-      <div className="hidden md:flex md:w-1/2 mt-8 md:mt-0 justify-center">
+      {/* Right Image */}
+      <div className=" md:w-1/2 mt-8 md:mt-0 flex justify-center">
         <img
-          src="/src/assets/People search-rafiki.svg"
+          src="/public/assets/People search-rafiki.svg"
           alt="Job Hunt"
-          className="w-3/4 sm:w-2/3 md:w-full max-w-md md:max-w-full"
+          className="w-3/4 sm:w-2/3  md:w-full max-w-md md:max-w-full"
         />
       </div>
     </section>
