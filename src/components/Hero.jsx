@@ -3,7 +3,7 @@ import jobHunting from "/public/assets/People-search-rafiki.svg"
 
 const Hero = () => {
   return (
-    <section className="flex flex-col md:flex-row items-center justify-between px-6 sm:px-8 lg:px-16 py-10 bg-gray-50">
+    <section className=" flex flex-col md:flex-row items-center justify-between px-6 sm:px-8 lg:px-16 py-10 bg-gray-50" >
       {/* Left Content */}
       <div className="md:w-1/2 space-y-6 text-center md:text-left">
         <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">
