@@ -1,9 +1,9 @@
 import React from "react";
-import jobHunting from "/public/assets/People-search-rafiki.svg"
+import jobHunting from "/public/assets/People-search-rafiki.svg";
 
 const Hero = () => {
   return (
-    <section className=" flex flex-col md:flex-row items-center justify-between px-6 sm:px-8 lg:px-16 py-10 bg-gray-50" >
+    <section className=" flex flex-col mb-0 md:flex-row items-center justify-between px-6 sm:px-8 lg:px-16 py-10 bg-gray-50">
       {/* Left Content */}
       <div className="md:w-1/2 space-y-6 text-center md:text-left">
         <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">
@@ -11,23 +11,24 @@ const Hero = () => {
         </h1>
 
         <p className="text-gray-700 text-base sm:text-lg">
-          Discover thousands of career opportunities with leading companies worldwide.
+          Discover thousands of career opportunities with leading companies
+          worldwide.
         </p>
 
         {/* Search Bar */}
-        <div className="flex flex-col sm:flex-row items-center bg-white shadow-md rounded-lg p-2 w-full max-w-lg mx-auto md:mx-0 gap-2">
+        <div className="flex flex-col sm:flex-row items-center bg-white shadow-lg rounded-xl p-3 w-full max-w-2xl mx-auto md:mx-0 gap-3">
           <input
             type="text"
             placeholder="Job title..."
-            className="flex-1 px-4 py-2 outline-none border rounded-md w-full sm:w-auto"
+            className="flex-1 px-4 py-2 text-gray-700 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition w-full sm:w-auto"
           />
           <input
             type="text"
             placeholder="Location..."
-            className="flex-1 px-4 py-2 outline-none border rounded-md w-full sm:w-auto"
+            className="flex-1 px-4 py-2 text-gray-700 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition w-full sm:w-auto"
           />
-          <button className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 w-full sm:w-auto">
-            Search
+          <button className="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition w-full sm:w-auto">
+            🔍 Search
           </button>
         </div>
 
