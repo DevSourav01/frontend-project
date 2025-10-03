@@ -1,4 +1,5 @@
 import React from "react";
+import resume from "/public/assets/Online resume-rafiki.svg"
 
 const HowItWorks = () => {
   const steps = [
@@ -38,7 +39,7 @@ const HowItWorks = () => {
       {/* Right Image */}
       <div className="md:w-1/2 flex justify-center">
         <img
-          src="/public/assets/Online resume-rafiki.svg"
+          src={resume}
           alt="How it works"
           className="w-3/4 md:w-full max-w-sm"
         />

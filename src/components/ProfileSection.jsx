@@ -1,4 +1,5 @@
 import React from "react";
+import profile from "/public/assets/Profile data-rafiki.svg"
 
 const ProfileSection = () => {
   return (
@@ -6,7 +7,7 @@ const ProfileSection = () => {
       {/* Left Image */}
       <div className="md:w-1/2 flex justify-center mb-8 md:mb-0">
         <img
-          src="/public/assets/Profile data-rafiki.svg"
+          src={profile}
           alt="Create Profile"
           className="w-3/4 md:w-full max-w-sm"
         />
