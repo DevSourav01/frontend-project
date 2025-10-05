@@ -1,7 +1,9 @@
 import React from "react";
 import profile from "/public/assets/Profile data-rafiki.svg"
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 const ProfileSection = () => {
+  const navigate = useNavigate("/")
   return (
     <section className="flex flex-col md:flex-row items-center justify-between px-6 sm:px-12 lg:px-20 py-12 bg-blue-50">
       {/* Left Image */}
@@ -23,7 +25,8 @@ const ProfileSection = () => {
           Create an account for the job information you want, get daily
           notifications, and you can easily apply directly to the company.
         </p>
-        <button className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+        <button onClick={() => navigate("/role-selection")}
+         className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
           Create Account
         </button>
       </div>
