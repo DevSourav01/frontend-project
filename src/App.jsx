@@ -1,88 +1,51 @@
-// import Navbar from "./components/Navbar";
-// import Hero from "./components/Hero";
-// import Categories from "./components/Categories";
-// import HowItWorks from "./components/HowItWorks";
-// import Newsletter from "./components/NewsLetter";
-// import ProfileSection from "./components/ProfileSection";
-// import Footer from "./components/Footer";
-// function App() {
-//   return (
-//     <>
-//       <Navbar/>
-//       <Hero/>
-//       <Categories/>
-//       <ProfileSection/>
-//       <HowItWorks/>
-//       <Newsletter/>
-//       <Footer/>
-//     </>
-//   );
-// }
-
-// export default App;
-
-// import React from "react";
-// import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-// import RoleSelection from "./components/RoleSelection";
-
-// function App() {
-//   return (
-//     <Router>
-//       <Routes>
-//         <Route path="/" element={<RoleSelection />} />
-//         {/* placeholders for upcoming forms */}
-//         <Route path="/employer-profile" element={<h1>Employer Profile Form</h1>} />
-//         <Route path="/jobseeker-profile" element={<h1>Job Seeker Profile Form</h1>} />
-//       </Routes>
-//     </Router>
-//   );
-// }
-
-// export default App;
-
-
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import RoleSelection from "./components/RoleSelection";
-import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import Categories from "./components/Categories";
-import ProfileSection from "./components/ProfileSection";
-import HowItWorks from "./components/HowItWorks";
-import Newsletter from "./components/NewsLetter";
-import Footer from "./components/Footer";
+
+import RoleSelection from "./components/Pages/RoleSelection";
+import Navbar from "./components/LandingPage/Navbar";
+import Hero from "./components/LandingPage/Hero";
+import Categories from "./components/LandingPage/Categories";
+import ProfileSection from "./components/LandingPage/ProfileSection";
+import HowItWorks from "./components/LandingPage/HowItWorks";
+import Newsletter from "./components/LandingPage/NewsLetter";
+import Footer from "./components/LandingPage/Footer";
 import StudentSignup from "./components/Pages/StudentSignup";
 import EmployerSignup from "./components/Pages/EmployerSignup";
-function App() {
+import StudentLogin from "./components/Pages/StudentLogin";
+import EmployerLogin from "./components/Pages/EmployerLogin";
 
+function App() {
   return (
     <Router>
-  <Routes>
-    {/* Home Page */}
-    <Route
-      path="/"
-      element={
-        <>
-          <Navbar />
-          <Hero />
-          <Categories />
-          <ProfileSection />
-          <HowItWorks />
-          <Newsletter />
-          <Footer />
-        </>
-      }
-    />
+      <Routes>
+        {/* 🏠 Landing Page */}
+        <Route
+          path="/"
+          element={
+            <>
+              <Navbar />
+              <Hero />
+              <Categories />
+              <ProfileSection />
+              <HowItWorks />
+              <Newsletter />
+              <Footer />
+            </>
+          }
+        />
 
-    {/* Role Selection */}
-    <Route path="/role-selection" element={<RoleSelection />} />
+        {/* 👥 Role Selection */}
+        <Route path="/role-selection" element={<RoleSelection />} />
 
-    {/* Signup Routes */}
-    <Route path="/jobseeker-profile" element={<StudentSignup />} />
-    <Route path="/employer-profile" element={<EmployerSignup />} />
-  </Routes>
-</Router>
+        {/* 👨‍🎓 Job Seeker Routes */}
+        <Route path="/student-login" element={<StudentLogin />} />
+        <Route path="/student-signup" element={<StudentSignup />} />
 
+        {/* 🧑‍💼 Employer Routes */}
+        <Route path="/employer-login" element={<EmployerLogin />} />
+        <Route path="/employer-signup" element={<EmployerSignup />} />
+      </Routes>
+    </Router>
   );
 }
 
