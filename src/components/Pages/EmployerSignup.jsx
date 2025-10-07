@@ -4,6 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { supabase } from "../../supabaseClient"; // ✅ Import Supabase client
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 // ✅ Validation Schema
 const employerSchema = yup.object().shape({
@@ -47,9 +48,12 @@ const EmployerSignup = () => {
 
       if (dbError) throw dbError;
 
-      alert("Employer signup successful ✅");
-      navigate("/employer-dashboard")
-
+       toast.success("🎉 Employer signup successful!", {
+              position: "top-right",
+              autoClose: 3000,
+            });
+      
+            setTimeout(() => navigate("/student-dashboard"), 1500);
     } catch (error) {
       console.error("Signup failed:", error.message);
       alert(`Signup failed: ${error.message}`);

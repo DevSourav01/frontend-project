@@ -31,18 +31,19 @@ const Navbar = () => {
 
       {/* Desktop Buttons */}
       <div className="hidden md:flex space-x-4">
-        <button
+        {/* <button
           onClick={() => navigate("/role-selection")}
           className="px-4 py-2 border border-blue-700 text-blue-700 rounded-lg hover:bg-blue-50 cursor-pointer"
         >
           Login
-        </button>
+        </button> */}
         <button
           onClick={() => navigate("/role-selection")}
           className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer"
         >
-          Sign Up
+          Get Started
         </button>
+        
       </div>
 
       {/* Mobile Menu Button */}
@@ -78,7 +79,7 @@ const Navbar = () => {
             Candidates
           </Link> */}
 
-          <button
+          {/* <button
             onClick={() => {
               navigate("/role-selection");
               setIsOpen(false);
@@ -86,7 +87,7 @@ const Navbar = () => {
             className="px-4 py-2 border border-blue-700 text-blue-700 rounded-lg hover:bg-blue-50 w-32"
           >
             Login
-          </button>
+          </button> */}
           <button
             onClick={() => {
               navigate("/role-selection");
@@ -94,7 +95,7 @@ const Navbar = () => {
             }}
             className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 w-32"
           >
-            Sign Up
+            Get Started
           </button>
         </div>
       )}
