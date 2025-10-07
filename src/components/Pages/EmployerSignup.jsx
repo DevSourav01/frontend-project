@@ -2,25 +2,20 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { supabase } from "../../supabaseClient"; // ✅ Import Supabase client
+import { useNavigate } from "react-router-dom";
 
 // ✅ Validation Schema
 const employerSchema = yup.object().shape({
   companyName: yup.string().required("Company name is required"),
-  companyEmail: yup
-    .string()
-    .email("Enter a valid email")
-    .required("Email is required"),
-  companySize: yup
-    .string()
-    .required("Please select your company size"),
+  companyEmail: yup.string().email("Enter a valid email").required("Email is required"),
+  companySize: yup.string().required("Please select your company size"),
   location: yup.string().required("Location is required"),
-  password: yup
-    .string()
-    .min(6, "Password must be at least 6 characters")
-    .required("Password is required"),
+  password: yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
 });
 
 const EmployerSignup = () => {
+  const navigate=useNavigate()
   const {
     register,
     handleSubmit,
@@ -29,9 +24,36 @@ const EmployerSignup = () => {
     resolver: yupResolver(employerSchema),
   });
 
-  const onSubmit = (data) => {
-    console.log("Employer data submitted:", data);
-    alert("Employer signup successful ✅");
+  const onSubmit = async (data) => {
+    try {
+      // 1️⃣ Sign up the employer in Supabase Auth
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email: data.companyEmail,
+        password: data.password,
+      });
+
+      if (authError) throw authError;
+
+      // 2️⃣ Save extra details in Supabase "employers" table
+      const { error: dbError } = await supabase.from("employers").insert([
+        {
+          company_name: data.companyName,
+          company_email: data.companyEmail,
+          company_size: data.companySize,
+          location: data.location,
+          auth_id: authData?.user?.id,
+        },
+      ]);
+
+      if (dbError) throw dbError;
+
+      alert("Employer signup successful ✅");
+      navigate("/employer-dashboard")
+
+    } catch (error) {
+      console.error("Signup failed:", error.message);
+      alert(`Signup failed: ${error.message}`);
+    }
   };
 
   return (
@@ -44,9 +66,7 @@ const EmployerSignup = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           {/* Company Name */}
           <div>
-            <label className="block font-semibold text-gray-700 mb-2">
-              Company Name
-            </label>
+            <label className="block font-semibold text-gray-700 mb-2">Company Name</label>
             <input
               type="text"
               {...register("companyName")}
@@ -58,9 +78,7 @@ const EmployerSignup = () => {
 
           {/* Company Email */}
           <div>
-            <label className="block font-semibold text-gray-700 mb-2">
-              Company Email
-            </label>
+            <label className="block font-semibold text-gray-700 mb-2">Company Email</label>
             <input
               type="email"
               {...register("companyEmail")}
@@ -72,9 +90,7 @@ const EmployerSignup = () => {
 
           {/* Company Size */}
           <div>
-            <label className="block font-semibold text-gray-700 mb-2">
-              Company Size
-            </label>
+            <label className="block font-semibold text-gray-700 mb-2">Company Size</label>
             <select
               {...register("companySize")}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-200 transition"
@@ -90,9 +106,7 @@ const EmployerSignup = () => {
 
           {/* Location */}
           <div>
-            <label className="block font-semibold text-gray-700 mb-2">
-              Location
-            </label>
+            <label className="block font-semibold text-gray-700 mb-2">Location</label>
             <input
               type="text"
               {...register("location")}
@@ -104,9 +118,7 @@ const EmployerSignup = () => {
 
           {/* Password */}
           <div>
-            <label className="block font-semibold text-gray-700 mb-2">
-              Password
-            </label>
+            <label className="block font-semibold text-gray-700 mb-2">Password</label>
             <input
               type="password"
               {...register("password")}
