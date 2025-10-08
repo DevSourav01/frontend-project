@@ -60,7 +60,7 @@ const EmployerDashboard = () => {
       autoClose: 1500,
     });
     setTimeout(() => {
-      navigate("/employer-login");
+      navigate("/");
     }, 1500);
   };
 
