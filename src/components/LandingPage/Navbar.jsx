@@ -21,12 +21,12 @@ const Navbar = () => {
         <li className="hover:text-blue-600">
           <Link to="/">Home</Link>
         </li>
-        {/* <li className="hover:text-blue-600">
-          <Link to="/employer-profile">Employers</Link>
+        <li className="hover:text-blue-600">
+          <Link to="/student-login">Jobs</Link>
         </li>
         <li className="hover:text-blue-600">
-          <Link to="/jobseeker-profile">Candidates</Link>
-        </li> */}
+          <Link to="/employer-login">Post Jobs</Link>
+        </li>
       </ul>
 
       {/* Desktop Buttons */}
@@ -64,20 +64,20 @@ const Navbar = () => {
           >
             Home
           </Link>
-          {/* <Link
-            to="/employer-profile"
+          <Link
+            to="/student-login"
             className="text-gray-700 font-medium"
             onClick={() => setIsOpen(false)}
           >
-            Employers
+            Jobs
           </Link>
           <Link
-            to="/jobseeker-profile"
+            to="/employer-login"
             className="text-gray-700 font-medium"
             onClick={() => setIsOpen(false)}
           >
-            Candidates
-          </Link> */}
+            Post Jobs
+          </Link>
 
           {/* <button
             onClick={() => {

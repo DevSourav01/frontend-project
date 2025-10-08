@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { supabase } from "../../supabaseClient";
+import { supabase } from "../../../supabaseClient";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -10,22 +10,35 @@ import "react-toastify/dist/ReactToastify.css";
 // ✅ Validation Schema
 const studentSchema = yup.object().shape({
   fullName: yup.string().required("Full name is required"),
-  email: yup.string().email("Enter a valid email").required("Email is required"),
+  email: yup
+    .string()
+    .email("Enter a valid email")
+    .required("Email is required"),
   phone: yup
     .string()
     .matches(/^[0-9]{10}$/, "Enter a valid 10-digit phone number")
     .required("Phone number is required"),
   skills: yup.string().required("Please list your skills"),
   education: yup.string().required("Education is required"),
-  resumeLink: yup.string().url("Enter a valid URL").required("Resume link is required"),
-  password: yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
+  resumeLink: yup
+    .string()
+    .url("Enter a valid URL")
+    .required("Resume link is required"),
+  password: yup
+    .string()
+    .min(6, "Password must be at least 6 characters")
+    .required("Password is required"),
 });
 
 const StudentSignup = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     resolver: yupResolver(studentSchema),
   });
 
@@ -33,25 +46,30 @@ const StudentSignup = () => {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      // Step 1️⃣: Signup user in Auth
-      const { data: _authData, error: signUpError } = await supabase.auth.signUp({
-        email: data.email,
-        password: data.password,
-      });
+      // Step 1️⃣: Sign up user in Auth
+      const { data: authData, error: signUpError } = await supabase.auth.signUp(
+        {
+          email: data.email,
+          password: data.password,
+        }
+      );
 
       if (signUpError) throw signUpError;
 
-      // Step 2️⃣: Insert additional user details in "students" table
-      const { error: insertError } = await supabase
-        .from("students")
-        .insert([{
+      const user = authData.user; // ✅ get user id
+
+      // Step 2️⃣: Insert student details in "students" table
+      const { error: insertError } = await supabase.from("students").insert([
+        {
           fullname: data.fullName,
           email: data.email,
           phone: data.phone,
           skills: data.skills,
           education: data.education,
-          resumelink: data.resumeLink
-        }]);
+          resumelink: data.resumeLink,
+          auth_id: user?.id, // ✅ link to auth user
+        },
+      ]);
 
       if (insertError) throw insertError;
 
@@ -60,7 +78,8 @@ const StudentSignup = () => {
         autoClose: 3000,
       });
 
-      setTimeout(() => navigate("/student-dashboard"), 1500);
+      // ✅ Redirect to login page instead of dashboard
+      setTimeout(() => navigate("/student-login"), 1500);
     } catch (err) {
       console.error("Signup error:", err);
       toast.error(`Signup failed: ${err.message}`, {
@@ -80,37 +99,68 @@ const StudentSignup = () => {
           Student Signup
         </h2>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-5">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="space-y-4 sm:space-y-5"
+        >
           {[
-            { name: "fullName", label: "Full Name", placeholder: "Enter your full name" },
+            {
+              name: "fullName",
+              label: "Full Name",
+              placeholder: "Enter your full name",
+            },
             { name: "email", label: "Email", placeholder: "Enter your email" },
-            { name: "phone", label: "Phone", placeholder: "Enter phone number" },
-            { name: "skills", label: "Skills", placeholder: "e.g., React, Node.js, UI Design" },
-            { name: "education", label: "Education", placeholder: "e.g., B.Tech in Computer Science" },
-            { name: "resumeLink", label: "Resume Link", placeholder: "Paste your resume or portfolio link" },
+            {
+              name: "phone",
+              label: "Phone",
+              placeholder: "Enter phone number",
+            },
+            {
+              name: "skills",
+              label: "Skills",
+              placeholder: "e.g., React, Node.js, UI Design",
+            },
+            {
+              name: "education",
+              label: "Education",
+              placeholder: "e.g., B.Tech in Computer Science",
+            },
+            {
+              name: "resumeLink",
+              label: "Resume Link",
+              placeholder: "Paste your resume or portfolio link",
+            },
           ].map((field) => (
             <div key={field.name}>
-              <label className="block font-semibold text-gray-700 mb-1 sm:mb-2 text-sm sm:text-base">{field.label}</label>
+              <label className="block font-semibold text-gray-700 mb-1 sm:mb-2 text-sm sm:text-base">
+                {field.label}
+              </label>
               <input
                 type={field.name === "email" ? "email" : "text"}
                 {...register(field.name)}
                 className="w-full border-2 border-gray-300 rounded-lg px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
                 placeholder={field.placeholder}
               />
-              <p className="text-red-500 text-xs sm:text-sm mt-1">{errors[field.name]?.message}</p>
+              <p className="text-red-500 text-xs sm:text-sm mt-1">
+                {errors[field.name]?.message}
+              </p>
             </div>
           ))}
 
           {/* Password */}
           <div>
-            <label className="block font-semibold text-gray-700 mb-1 sm:mb-2 text-sm sm:text-base">Password</label>
+            <label className="block font-semibold text-gray-700 mb-1 sm:mb-2 text-sm sm:text-base">
+              Password
+            </label>
             <input
               type="password"
               {...register("password")}
               className="w-full border-2 border-gray-300 rounded-lg px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition"
               placeholder="Create a password"
             />
-            <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.password?.message}</p>
+            <p className="text-red-500 text-xs sm:text-sm mt-1">
+              {errors.password?.message}
+            </p>
           </div>
 
           <button

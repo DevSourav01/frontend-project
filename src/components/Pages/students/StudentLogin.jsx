@@ -71,8 +71,8 @@
 //         />
 //         <p className="text-red-500 text-sm mb-6">{errors.password?.message}</p>
 
-//         <button 
-//           type="submit" 
+//         <button
+//           type="submit"
 //           disabled={loading}
 //           className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white w-full py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
 //         >
@@ -95,25 +95,30 @@
 
 // export default StudentLogin;
 
-
-
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { supabase } from "../../supabaseClient";
+import { supabase } from "../../../supabaseClient";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const schema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Email is required"),
-  password: yup.string().min(6, "Min 6 characters").required("Password is required"),
+  password: yup
+    .string()
+    .min(6, "Min 6 characters")
+    .required("Password is required"),
 });
 
 const StudentLogin = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     resolver: yupResolver(schema),
   });
 
@@ -121,10 +126,11 @@ const StudentLogin = () => {
     setLoading(true);
     try {
       // Sign in with Supabase
-      const { data: _authData, error: authError } = await supabase.auth.signInWithPassword({
-        email: data.email,
-        password: data.password,
-      });
+      const { data: _authData, error: authError } =
+        await supabase.auth.signInWithPassword({
+          email: data.email,
+          password: data.password,
+        });
 
       if (authError) throw authError;
 
@@ -161,8 +167,13 @@ const StudentLogin = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8">
-      <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-8 rounded-2xl shadow-2xl w-96 border border-blue-100">
-        <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Student Login</h2>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="bg-white p-8 rounded-2xl shadow-2xl w-96 border border-blue-100"
+      >
+        <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+          Student Login
+        </h2>
 
         <input
           type="email"
@@ -180,8 +191,8 @@ const StudentLogin = () => {
         />
         <p className="text-red-500 text-sm mb-6">{errors.password?.message}</p>
 
-        <button 
-          type="submit" 
+        <button
+          type="submit"
           disabled={loading}
           className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white w-full py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
         >

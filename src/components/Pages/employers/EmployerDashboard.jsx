@@ -3,7 +3,7 @@ import { PlusCircle, ClipboardList, Users } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { supabase } from "../../supabaseClient";
+import { supabase } from "../../../supabaseClient";
 
 const EmployerDashboard = () => {
   const navigate = useNavigate();
@@ -91,7 +91,8 @@ const EmployerDashboard = () => {
       {/* Dashboard Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
         {/* Post a New Job */}
-        <div className="bg-white p-4 sm:p-6 rounded-2xl shadow hover:shadow-lg transition cursor-pointer">
+        <div className="bg-white p-4 sm:p-6 rounded-2xl shadow hover:shadow-lg transition cursor-pointer"
+        onClick={() => navigate("/post-job")}>
           <div className="flex items-center gap-3 mb-3">
             <PlusCircle className="text-green-500" />
             <h2 className="text-lg sm:text-xl font-semibold">Post a Job</h2>
@@ -102,7 +103,8 @@ const EmployerDashboard = () => {
         </div>
 
         {/* Manage Jobs */}
-        <div className="bg-white p-4 sm:p-6 rounded-2xl shadow hover:shadow-lg transition cursor-pointer">
+        <div className="bg-white p-4 sm:p-6 rounded-2xl shadow hover:shadow-lg transition cursor-pointer"
+        onClick={() => navigate("/manage-jobs")}>
           <div className="flex items-center gap-3 mb-3">
             <ClipboardList className="text-green-500" />
             <h2 className="text-lg sm:text-xl font-semibold">Manage Jobs</h2>

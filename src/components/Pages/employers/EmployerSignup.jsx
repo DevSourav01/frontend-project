@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { supabase } from "../../supabaseClient"; // ✅ Import Supabase client
+import { supabase } from "../../../supabaseClient";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // ✅ Validation Schema
 const employerSchema = yup.object().shape({
@@ -16,7 +17,9 @@ const employerSchema = yup.object().shape({
 });
 
 const EmployerSignup = () => {
-  const navigate=useNavigate()
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -25,7 +28,9 @@ const EmployerSignup = () => {
     resolver: yupResolver(employerSchema),
   });
 
+  // ✅ On Submit
   const onSubmit = async (data) => {
+    setLoading(true);
     try {
       // 1️⃣ Sign up the employer in Supabase Auth
       const { data: authData, error: authError } = await supabase.auth.signUp({
@@ -34,34 +39,42 @@ const EmployerSignup = () => {
       });
 
       if (authError) throw authError;
+      const user = authData?.user;
 
-      // 2️⃣ Save extra details in Supabase "employers" table
+      // 2️⃣ Save extra details in "employers" table
       const { error: dbError } = await supabase.from("employers").insert([
         {
           company_name: data.companyName,
           company_email: data.companyEmail,
           company_size: data.companySize,
           location: data.location,
-          auth_id: authData?.user?.id,
+          auth_id: user?.id, // ✅ important link
         },
       ]);
 
       if (dbError) throw dbError;
 
-       toast.success("🎉 Employer signup successful!", {
-              position: "top-right",
-              autoClose: 3000,
-            });
-      
-            setTimeout(() => navigate("/student-dashboard"), 1500);
+      toast.success("🎉 Employer signup successful!", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+
+      // ✅ Redirect to login page after signup
+      setTimeout(() => navigate("/employer-login"), 1500);
     } catch (error) {
       console.error("Signup failed:", error.message);
-      alert(`Signup failed: ${error.message}`);
+      toast.error(`Signup failed: ${error.message}`, {
+        position: "top-right",
+        autoClose: 4000,
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 py-8">
+      <ToastContainer />
       <div className="bg-white shadow-2xl rounded-2xl p-8 w-full max-w-md border border-green-100">
         <h2 className="text-3xl font-bold text-center bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-8">
           Employer Signup
@@ -132,12 +145,13 @@ const EmployerSignup = () => {
             <p className="text-red-500 text-sm mt-1">{errors.password?.message}</p>
           </div>
 
-          {/* Submit Button */}
+          {/* Submit */}
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3 rounded-lg font-semibold hover:from-green-700 hover:to-emerald-700 shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 mt-6"
+            disabled={loading}
+            className="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3 rounded-lg font-semibold hover:from-green-700 hover:to-emerald-700 shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 mt-6 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Create Employer Account
+            {loading ? "Creating Account..." : "Create Employer Account"}
           </button>
         </form>
       </div>

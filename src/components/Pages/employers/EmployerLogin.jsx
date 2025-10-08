@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { supabase } from "../../supabaseClient";
+import { supabase } from "../../../supabaseClient";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 

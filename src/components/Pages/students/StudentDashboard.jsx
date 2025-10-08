@@ -1,28 +1,68 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Briefcase, FileText, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { supabase } from "../../../supabaseClient";
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
+  const [studentName, setStudentName] = useState("");
 
-  const handleLogout = () => {
+  // ✅ Fetch logged-in student's name
+  useEffect(() => {
+    const fetchStudent = async () => {
+      try {
+        const {
+          data: { session },
+          error: sessionError,
+        } = await supabase.auth.getSession();
+        if (sessionError) throw sessionError;
+        if (!session) return;
+
+        const userId = session.user.id;
+
+        const { data, error } = await supabase
+          .from("students")
+          .select("fullname")
+          .eq("auth_id", userId)
+          .maybeSingle();
+        if (!data) {
+          console.warn("No student record found for this user.");
+          return;
+        }
+
+        if (error) throw error;
+        setStudentName(data.fullname);
+      } catch (err) {
+        console.error("Error fetching student:", err.message);
+        toast.error("Failed to fetch student info", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+      }
+    };
+
+    fetchStudent();
+  }, []);
+
+  // ✅ Logout
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
     toast.success("✅ Logout successful! See you soon!", {
       position: "top-right",
       autoClose: 1500,
     });
-
     setTimeout(() => {
       navigate("/"); // redirect to homepage or login
-    }, 1500); // wait until toast disappears
+    }, 1500);
   };
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 sm:p-6 md:p-8">
       <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4 sm:gap-0">
-        <h1 className="text-2xl sm:text-3xl font-bold text-blue-600">
-          🎓 Job Seeker Dashboard
+        <h1 className="text-1xl sm:text-3xl font-bold text-blue-600">
+          🎓 Welcome Back, {studentName || "Student"}
         </h1>
 
         <button
@@ -56,7 +96,9 @@ const StudentDashboard = () => {
         >
           <div className="flex items-center gap-3 mb-3">
             <FileText className="text-blue-500" />
-            <h2 className="text-lg sm:text-xl font-semibold">My Applications</h2>
+            <h2 className="text-lg sm:text-xl font-semibold">
+              My Applications
+            </h2>
           </div>
           <p className="text-gray-600 text-sm sm:text-base">
             Track all your applied jobs and their statuses.
@@ -70,7 +112,9 @@ const StudentDashboard = () => {
         >
           <div className="flex items-center gap-3 mb-3">
             <User className="text-blue-500" />
-            <h2 className="text-lg sm:text-xl font-semibold">Profile Summary</h2>
+            <h2 className="text-lg sm:text-xl font-semibold">
+              Profile Summary
+            </h2>
           </div>
           <p className="text-gray-600 text-sm sm:text-base">
             Update your personal info and resume.
