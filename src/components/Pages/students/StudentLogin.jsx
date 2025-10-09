@@ -153,7 +153,7 @@ const StudentLogin = () => {
 
       setTimeout(() => {
         navigate("/student-dashboard");
-      }, 1000);
+      }, 1500);
     } catch (error) {
       console.error("Login failed:", error.message);
       toast.error(`Login failed: ${error.message}`, {
