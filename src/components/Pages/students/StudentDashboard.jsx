@@ -108,7 +108,7 @@ const StudentDashboard = () => {
         {/* Profile Summary */}
         <div
           className="bg-white p-4 sm:p-6 rounded-2xl shadow hover:shadow-lg transition cursor-pointer"
-          onClick={() => navigate("/profile-summary")}
+          onClick={() => navigate("/my-profile")}
         >
           <div className="flex items-center gap-3 mb-3">
             <User className="text-blue-500" />

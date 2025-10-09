@@ -118,7 +118,7 @@ const EmployerDashboard = () => {
         <div className="bg-white p-4 sm:p-6 rounded-2xl shadow hover:shadow-lg transition cursor-pointer">
           <div className="flex items-center gap-3 mb-3">
             <Users className="text-green-500" />
-            <h2 className="text-lg sm:text-xl font-semibold">View Applicants</h2>
+            <h2 className="text-lg sm:text-xl font-semibold" onClick={()=>navigate("/employer-applications")}>View Applicants</h2>
           </div>
           <p className="text-gray-600 text-sm sm:text-base">
             See who applied and review their resumes.

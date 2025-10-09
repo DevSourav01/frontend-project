@@ -20,6 +20,9 @@ import EmployerDashboard from "./components/Pages/employers/EmployerDashboard";
 import PostJob from "./components/Pages/employers/PostJob";
 import ManageJobs from "./components/Pages/employers/ManageJobs";
 import BrowseJobs from "./components/Pages/students/BrowseJobs";
+import ViewApplications from "./components/Pages/employers/ViewApplications";
+import MyApplications from "./components/Pages/students/MyApplications";
+import MyProfile from "./components/Pages/students/MyProfile";
 function App() {
   return (
     <Router>
@@ -54,10 +57,14 @@ function App() {
         {/*Student Dashboard Routes */}
         <Route path="/student-dashboard" element={<StudentDashboard />} />
         <Route path="/browse-jobs" element={<BrowseJobs/>} />
+        <Route path="/my-applications" element={<MyApplications/>} />
+        <Route path="/my-profile" element={<MyProfile/>} />
         {/*Employer Dashboard Routes */}
         <Route path="/employer-dashboard" element={<EmployerDashboard />} />
         <Route path="/post-job" element={<PostJob />} />
         <Route path="/manage-jobs" element={<ManageJobs />} />
+        <Route path="/employer-applications" element={<ViewApplications />} />
+
       </Routes>
     </Router>
   );
